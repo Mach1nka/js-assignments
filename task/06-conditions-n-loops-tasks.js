@@ -394,7 +394,7 @@ function timespanToHumanString(startDate, endDate) {
   else if (diff <= 2160000) return `${round(86400)} days ago`; 
   else if (diff <= 3888000) return 'a month ago'; 
   else if (diff <= 29721600) return `${round(2.628e+6)} months ago`; 
-  else if (diff <= 44665200.001) return 'a year ago'; 
+  else if (diff <= 44665201) return 'a year ago'; 
   else return `${round(3.154e+7)} years ago`;
 }
 
