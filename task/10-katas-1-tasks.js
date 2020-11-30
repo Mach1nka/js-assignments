@@ -16,7 +16,6 @@
  *  ]
  */
 function createCompassPoints(sides = ['N', 'E', 'S', 'W']) {
-  /* use array of cardinal directions only! it is a default parameter! */
   throw new Error('Not implemented');
 }
 

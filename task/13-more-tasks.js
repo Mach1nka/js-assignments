@@ -12,7 +12,10 @@
  *   'abcdefghijklmnop',  'lmnopqrstuvwxyz'  => 'abcdefghijklmnopqrstuvwxyz'
  */
 function distinctLettersString(value1, value2) {
-  throw new Error('Not implemented');
+  const str = value1 + value2, set = new Set();
+  const sortedStr  = str.split('').sort(); 
+  sortedStr.forEach(el => set.add(el));
+  return [...set].join('');
 }
 
 
@@ -29,7 +32,13 @@ function distinctLettersString(value1, value2) {
  */
 
 function lowerLetters(value) {
-  throw new Error('Not implemented');
+  const reg = /[a-z]/g, obj = {};
+  const match = value.match(reg);
+  match.forEach(el => {
+    if(obj.hasOwnProperty(el)) obj[el] +=1;
+    else obj[el] = 1;
+  });
+  return obj;
 }
 
 /**
@@ -45,13 +54,35 @@ function lowerLetters(value) {
  * @return {string}
  *
  * @example
- *    'a clash if KINGS', 'a an the of'  =>  'A Clash of Kings'
+ *    'a clash of KINGS', 'a an the of'  =>  'A Clash of Kings'
  *    'THE WIND IN THE WILLOWS', 'The In'  => 'The Wind in the Willows'
  *    'the quick brown fox'  => 'The Quick Brown Fox'
  */
 
 function titleCaseConvert(title, minorWords) {
-  throw new Error('Not implemented');
+  const answer = [];
+  title = title.toLowerCase().split(' ');
+  
+  if (!minorWords) {
+    return title.map(word => word[0].toUpperCase() + word.substring(1))
+      .join(' ');
+  } else minorWords = minorWords.toLowerCase();
+
+  function convrtToUpperCase(arg) {
+    return arg[0].toUpperCase() + arg.substring(1);
+  }
+
+  title.forEach(function(word, index) {
+    if (index === 0) {
+      answer.push(convrtToUpperCase(word));
+    } else if (minorWords.indexOf(word) !== -1) {
+      answer.push(word);
+    } else {
+      answer.push(convrtToUpperCase(word));
+    }
+  });
+
+  return answer.join(' ');
 }
 
 /**
@@ -72,7 +103,39 @@ function titleCaseConvert(title, minorWords) {
  */
 
 function calcRPN(expr) {
-  throw new Error('Not implemented');
+  const splitStr = expr ? expr.split(' ') : null;
+  
+  function getPriority(token) {
+    if (token === '*' || token === '/') return 3;
+    else if (token === '+' || token === '-') return 2;
+    else return 0;
+  }
+
+  function rpnToRes(stackNum) {
+    if (!Array.isArray(stackNum)) return 0;
+    const stack = [];
+    stackNum.map(function(){
+      for (let k = 0; k < stackNum.length; k++){
+        if(stackNum[k] === '') stackNum.splice(k, 1);
+      }
+    });
+    stackNum = stackNum.map(function(el){
+      if(getPriority(el) === 0)return +el;
+      else return el;
+    });
+    for (let i = 0; i < stackNum.length; i++) {
+      if (getPriority(stackNum[i]) === 0) stack.push(stackNum[i]);
+      if (getPriority(stackNum[i]) > 1){
+        const x = stack.pop(), y = stack.pop();
+        if(stackNum[i] === '-') stack.push(y - x);
+        if(stackNum[i] === '+') stack.push(y + x);
+        if(stackNum[i] === '*') stack.push(y * x);
+        if(stackNum[i] === '/') stack.push(y / x);
+      }
+    }
+    return stack.pop();
+  }
+  return rpnToRes(splitStr);
 }
 
 module.exports = {

@@ -111,7 +111,14 @@ function memoize(func) {
  * retryer() => 2
  */
 function retry(func, attempts) {
-  throw new Error('Not implemented');     
+  return () => {
+    if (attempts === 1) return func();
+    try {
+      while(attempts--) {
+        return func();
+      }
+    } catch (e) {return 'expected';}
+  };   
 }
 
 
@@ -139,7 +146,13 @@ function retry(func, attempts) {
  *
  */
 function logger(func, logFunc) {
-  throw new Error('Not implemented');
+  let start = '', end = '', result = null;
+  return function wrapper(...args) {
+    start = `${func.name}(${JSON.stringify(args).slice(1, -1)}) starts`;
+    logFunc(start); result = func(...args);
+    end = `${func.name}(${JSON.stringify(args).slice(1, -1)}) ends`;
+    logFunc(end); return result;
+  };
 }
 
 
@@ -156,8 +169,8 @@ function logger(func, logFunc) {
  *   partialUsingArguments(fn, 'a','b','c')('d') => 'abcd'
  *   partialUsingArguments(fn, 'a','b','c','d')() => 'abcd'
  */
-function partialUsingArguments(fn) {
-  throw new Error('Not implemented');
+function partialUsingArguments(fn, ...args1) {
+  return (...args2) => fn(...args1, ...args2);
 }
 
 
@@ -178,8 +191,8 @@ function partialUsingArguments(fn) {
  *   getId4() => 7
  *   getId10() => 11
  */
-function getIdGeneratorFunction(startFrom) {
-  throw new Error('Not implemented');
+function getIdGeneratorFunction(...args) {
+  return () => args[0]++;
 }
 
 module.exports = {

@@ -99,7 +99,14 @@ function* getFibonacciSequence() {
  *
  */
 function* depthTraversalTree(root) {
-  throw new Error('Not implemented');
+  const arr = [root];
+  while (arr.length > 0) {
+    const a = arr.pop();
+    yield a;
+    if (a.children) {
+      arr.push(...a.children.reverse());
+    }
+  }
 }
 
 
@@ -125,7 +132,14 @@ function* depthTraversalTree(root) {
  *
  */
 function* breadthTraversalTree(root) {
-  throw new Error('Not implemented');
+  const arr = [root];
+  while (arr.length > 0) {
+    const a = arr.pop();
+    yield a;
+    if (a.children) {
+      arr.unshift(...a.children.reverse());
+    }
+  }
 }
 
 
@@ -143,7 +157,18 @@ function* breadthTraversalTree(root) {
  *   [ 1, 3, 5, ... ], [ -1 ] => [ -1, 1, 3, 5, ...]
  */
 function* mergeSortedSequences(source1, source2) {
-  throw new Error('Not implemented');
+  const s1 = source1(), s2 = source2();
+  while (true) {
+    const one = s1.next(), two = s2.next();
+    if (one.done) {
+      yield two.value;
+    } else if (two.done) {
+      yield one.value;
+    } else {
+      yield Math.min(one.value, two.value);
+      yield Math.max(one.value, two.value);
+    }
+  }
 }
 
 module.exports = {
