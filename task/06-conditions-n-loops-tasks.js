@@ -383,7 +383,7 @@ function isBracketsBalanced(str) {
  *
  */
 function timespanToHumanString(startDate, endDate) {
-  const diff = (endDate - startDate) / 1000;
+  const diff = (new Date(endDate) - new Date(startDate)) / 1000;
   const round = div => Math.round((diff-0.001)/div);
   if (diff <= 45) return 'a few seconds ago';
   else if (diff <= 90) return 'a minute ago';
@@ -397,7 +397,6 @@ function timespanToHumanString(startDate, endDate) {
   else if (diff <= 44665200.001) return 'a year ago'; 
   else return `${round(3.154e+7)} years ago`;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n<=10) representation of
